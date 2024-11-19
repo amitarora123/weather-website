@@ -73,7 +73,7 @@ const next5DaysWt = (res) => {
     const for_temp = document.getElementById(`for_temp_${i + 1}`);
     const day = dayData[i];
     const for_image = document.getElementById(`for_image_${i + 1}`);
-    for_image.src = `https:openweathermap.org/img/wn/${day.icon}.png`;
+    for_image.src = `https://openweathermap.org/img/wn/${day.icon}.png`;
     if (day) {
       for_temp.innerHTML = `${(day.temp - 273.15).toFixed(2)} &deg;`;
 
@@ -97,7 +97,7 @@ const next5DaysWt = (res) => {
 };
 
 const setMainImage = (url) =>{
-  main_image.src = `https:openweathermap.org/img/wn/${url}.png`;
+  main_image.src = `https://openweathermap.org/img/wn/${url}.png`;
 }
 
 const setHumidity = (val) =>{
