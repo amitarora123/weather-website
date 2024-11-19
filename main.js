@@ -1,5 +1,4 @@
 const apikey = import.meta.env.VITE_API_KEY; // Vite-specific environment variable
-console.log(apikey);
 const hamburger = document.getElementById('hamburger');
 const open_hamburger = document.getElementById('open');
 const close_hamburger = document.getElementById('close');
