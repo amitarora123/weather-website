@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Weather Website</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css"
+      integrity="sha512-6p+GTq7fjTHD/sdFPWHaFoALKeWOU9f9MPBoPnvJEWBkGS4PKVVbCpMps6IXnTiXghFbxlgDE8QRHc3MU91lJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="bg-bg-gray overflow-x-hidden h-[100vh] w-[100vw] text-white">
+    <nav
+      class="sticky top-0 z-10 flex justify-between w-full h-20 p-4 bg-bg-gray"
+    >
+      <a href="#">
+        <h1 class="text-2xl font-bold">Weather</h1>
+      </a>
+
+      <div id="hamburger" class="relative z-50 flex md:hidden w-fit h-fit">
+        <i
+          id="open"
+          class="absolute inset-0 text-2xl transition-all duration-200 ri-menu-line"
+        ></i>
+        <i
+          id="close"
+          class="inset-0 text-2xl transition-all duration-200 opacity-0 ri-close-line absolutef"
+        ></i>
+      </div>
+      <ul
+        id="nav-toggle"
+        class="z-10 flex max-md:h-[100vh] md:translate-x-0 transition-all duration-200 max-md:top-0 translate-x-96 max-md:flex-col max-md:space-y-10 max-md:bg-bg-box-gray max-md:fixed max-md:right-0 max-md:px-4 md:items-center md:space-x-4"
+      >
+        <li class="flex w-full space-x-2 max-md:mt-20">
+          <input
+            value=""
+            id="input"
+            type="text"
+            class="p-2 px-4 text-lg text-white rounded-full outline-none bg-bg-gray md:bg-bg-box-gray"
+            placeholder="Enter City Name"
+          />
+          <button
+            class="inline-flex items-center px-4 space-x-1 text-white rounded-full hover:bg-slate-200 bg-bg-gray md:bg-white md:text-black"
+            id="search_btn"
+          >
+            <i class="ri-search-line"></i>
+            <p class="hidden md:flex">Search</p>
+          </button>
+        </li>
+        <li class="flex items-center justify-center w-full">
+          <button
+            id="currentLocation"
+            class="p-1 px-2 text-black rounded-full bg-bg-btn hover:bg-orange-400"
+          >
+            <i class="ri-map-pin-2-fill"></i>
+            Current location
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <hr />
+
+    <main class="flex p-6 overflow-hidden max-md:flex-col">
+      <!-- sidebar -->
+      <section
+        class="flex flex-col w-full p-2 space-y-4 md:space-y-5 max-md:w-full sm:w-80 sm:h-full"
+      >
+        <div
+          class="flex flex-col p-4 space-y-2 rounded-lg max-md:w-full bg-bg-box-gray"
+        >
+          <div class="flex justify-between">
+            <div class="flex flex-col space-y-2">
+              <p id="weatherTime">Now</p>
+              <p id="temperature" class="text-4xl"></p>
+              <p id="weatherType"></p>
+            </div>
+            <div>
+              <img
+                src="https://openweathermap.org/img/wn/50d.png"
+                id="main_image"
+                class="w-24"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="w-full h-1 bg-white"></div>
+          <div class="flex space-x-2 text-[#747276]">
+            <i class="ri-calendar-line"> </i>
+            <p id="currentDate"></p>
+          </div>
+          <div id="weatherLocation" class="space-x-2 text-[#747276] flex">
+            <i class="ri-map-pin-2-fill"></i>
+            <p id="place"></p>
+          </div>
+        </div>
+        <div class="flex flex-col p-4 space-y-2 rounded-lg bg-bg-box-gray">
+          <p id="temperature" class="text-4xl">5 Days Forecast</p>
+          <ul>
+            <li class="flex items-center">
+              <img
+                src="/assets/svgs/cloudy-day-1.svg"
+                id="for_image_1"
+                alt=""
+                class="w-12"
+              />
+              <p id="for_temp_1"></p>
+              <p id="date_1" class="mx-6 text-text-gray"></p>
+              <p id="day" class="text-text-gray"></p>
+            </li>
+            <li class="flex items-center">
+              <img
+                src="/assets/svgs/cloudy.svg"
+                alt=""
+                class="w-12"
+                id="for_image_2"
+              />
+              <p id="for_temp_2"></p>
+              <p id="date_2" class="mx-6 text-text-gray"></p>
+              <p id="day" class="text-text-gray"></p>
+            </li>
+            <li class="flex items-center">
+              <img
+                src="/assets/svgs/cloudy-day-1.svg"
+                alt=""
+                class="w-12"
+                id="for_image_3"
+              />
+              <p id="for_temp_3"></p>
+              <p id="date_3" class="mx-6 text-text-gray"></p>
+              <p id="day" class="text-text-gray"></p>
+            </li>
+            <li class="flex items-center">
+              <img
+                src="/assets/svgs/cloudy.svg"
+                alt=""
+                class="w-12"
+                id="for_image_4"
+              />
+              <p id="for_temp_4"></p>
+              <p id="date_4" class="mx-6 text-text-gray"></p>
+              <p id="day" class="text-text-gray"></p>
+            </li>
+            <li class="flex items-center">
+              <img
+                src="/assets/svgs/cloudy.svg"
+                alt=""
+                class="w-12"
+                id="for_image_5"
+              />
+              <p id="for_temp_5"></p>
+              <p id="date_5" class="mx-6 text-text-gray"></p>
+              <p id="day" class="text-text-gray"></p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        class="px-4 w-[calc(100vw-20rem)] h-full max-md:w-full flex flex-col"
+      >
+        <h1 class="py-2 text-2xl font-bold">Today's Highlights</h1>
+        <div class="flex md:gap-4 max-lg:flex-col max-lg:space-y-4">
+          <div
+            id="airQuality"
+            class="w-1/2 max-lg:w-full bg-bg-box-gray rounded-2xl"
+          >
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Air Quality Index</p>
+              <button
+                id="airQualityIndex"
+                class="px-3 py-1 rounded-2xl"
+              ></button>
+            </div>
+
+            <div class="flex flex-col flex-wrap px-4 mt-4 [&>*]:mb-8">
+              <div
+                class="flex flex-wrap gap-4 [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:w-28"
+              >
+                <span>
+                  <p class="text-xl text-text-gray">PM2.5</p>
+                  <p class="text-5xl max-md:text-4xl" id="pmr"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">PM10</p>
+                  <p class="text-5xl max-md:text-4xl" id="pm10"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">SO2</p>
+                  <p class="text-5xl max-md:text-4xl" id="so2"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">CO</p>
+                  <p class="text-5xl max-md:text-4xl" id="co"></p>
+                </span>
+
+                <span>
+                  <p class="text-xl text-text-gray">NO</p>
+                  <p class="text-5xl max-md:text-4xl" id="no"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">NO2</p>
+                  <p class="text-5xl max-md:text-4xl" id="no2"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">NH3</p>
+                  <p class="text-5xl max-md:text-4xl" id="nh3"></p>
+                </span>
+                <span>
+                  <p class="text-xl text-text-gray">O3</p>
+                  <p class="text-5xl max-md:text-4xl" id="o3"></p>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            id="sunSet_sunRise"
+            class="w-1/2 max-lg:w-full bg-bg-box-gray rounded-2xl max-md:w-full"
+          >
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Sunrise & Sunset</p>
+            </div>
+            <div class="flex flex-col px-4 space-y-6">
+              <div class="flex space-x-4">
+                <div>
+                  <img
+                    class="w-20 invert max-md:w-16"
+                    src="/assets/svgs/sunrise.png"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <p class="text-text-gray">Sunrise</p>
+                  <p id="sunRiseTime" class="text-5xl max-md:text-4xl"></p>
+                </div>
+              </div>
+
+              <div class="flex space-x-4 max-md:py-8">
+                <div>
+                  <!-- sunset image -->
+                  <img
+                    class="w-20 invert max-md:w-16"
+                    src="/assets/svgs/sunset.png"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <p class="text-text-gray">Sunset</p>
+                  <p id="sunSetTime" class="text-5xl max-md:text-4xl"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-4 max-md:space-y-4">
+          <div class="bg-bg-box-gray rounded-2xl w-60 max-md:mt-4">
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Humidity</p>
+            </div>
+            <div class="flex justify-between p-2">
+              <i class="text-4xl ri-contrast-drop-line"></i>
+              <p class="text-4xl" id="humidity">90%</p>
+            </div>
+          </div>
+          <div class="bg-bg-box-gray rounded-2xl w-60">
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Pressure</p>
+            </div>
+            <div class="flex justify-between p-2 pt-0">
+              <i class="text-4xl ri-compass-3-line"></i>
+              <p class="text-4xl" id="pressure">10006hPa</p>
+            </div>
+          </div>
+          <div class="bg-bg-box-gray rounded-2xl w-60">
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Visibility</p>
+            </div>
+            <div class="flex justify-between p-4 pt-0">
+              <i class="text-4xl ri-eye-line"></i>
+              <p class="text-4xl" id="visibility">10Km</p>
+            </div>
+          </div>
+          <div class="bg-bg-box-gray rounded-2xl w-60">
+            <div class="flex justify-between p-4">
+              <p class="text-text-gray">Wind Speed</p>
+            </div>
+            <div class="flex justify-between p-2 pt-0">
+              <i class="text-4xl ri-send-plane-line"></i>
+              <p class="text-4xl" id="windSpeed">1.22m/s</p>
+            </div>
+          </div>
+          <div class="bg-bg-box-gray rounded-2xl w-60">
+            <div class="p-4">
+              <p class="text-text-gray">Feels Like</p>
+            </div>
+            <div class="flex justify-between w-full p-2 pt-0">
+              <i class="text-4xl ri-temp-cold-line"></i>
+              <p class="text-4xl" id="feelsLike">10.18&deg;C</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
