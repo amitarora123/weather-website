@@ -1,3 +1,5 @@
+const apikey = import.meta.env.VITE_API_KEY; // Vite-specific environment variable
+
 const hamburger = document.getElementById('hamburger');
 const open_hamburger = document.getElementById('open');
 const close_hamburger = document.getElementById('close');
@@ -22,11 +24,10 @@ const sunRiseTime = document.getElementById('sunRiseTime');
 const currentLocation = document.getElementById('currentLocation');
 const humidity = document.getElementById('humidity');
 const pressure = document.getElementById('pressure');
-const visibility = document.getElementById('visibility')
+const visibility = document.getElementById('visibility');
 const windSpeed = document.getElementById('windSpeed');
 const feelsLike = document.getElementById('feelsLike');
 const main_image = document.getElementById('main_image');
-
 
 let res;
 let location_value = 'delhi';
@@ -73,7 +74,7 @@ const next5DaysWt = (res) => {
     const for_temp = document.getElementById(`for_temp_${i + 1}`);
     const day = dayData[i];
     const for_image = document.getElementById(`for_image_${i + 1}`);
-    for_image.src = `https:openweathermap.org/img/wn/${day.icon}.png`;
+    for_image.src = `https://openweathermap.org/img/wn/${day.icon}.png`;
     if (day) {
       for_temp.innerHTML = `${(day.temp - 273.15).toFixed(2)} &deg;`;
 
@@ -96,25 +97,25 @@ const next5DaysWt = (res) => {
   }
 };
 
-const setMainImage = (url) =>{
-  main_image.src = `https:openweathermap.org/img/wn/${url}.png`;
-}
+const setMainImage = (url) => {
+  main_image.src = `https://openweathermap.org/img/wn/${url}.png`;
+};
 
-const setHumidity = (val) =>{
+const setHumidity = (val) => {
   humidity.innerText = val + '%';
-}
-const setPressure = (val) =>{
-  pressure.innerText = val +'hPa';
-}
-const setVisibility = (val) =>{
-  visibility.innerText = val/1000 + 'Km';
-}
-const setWindSpeed = (val) =>{
+};
+const setPressure = (val) => {
+  pressure.innerText = val + 'hPa';
+};
+const setVisibility = (val) => {
+  visibility.innerText = val / 1000 + 'Km';
+};
+const setWindSpeed = (val) => {
   windSpeed.innerText = val + 'm/s';
-}
-const setFeelsLike = (val) =>{
+};
+const setFeelsLike = (val) => {
   feelsLike.innerHTML = `${(val - 273.14).toFixed(2)} &deg;C`;
-}
+};
 
 // Function to update air quality data
 const setAirQuality = (res_new) => {
@@ -133,16 +134,15 @@ const setAirQuality = (res_new) => {
   o_3.innerText = res_new.list[0].components.o3;
 };
 
-
 // Function to fetch data from APIs
 const call_api = async () => {
   try {
     const locationResponse = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${location_value}&limit=1&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${location_value}&limit=1&appid=${apikey}`
     );
     const result = await locationResponse.json();
     const weatherResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${result[0].lat}&lon=${result[0].lon}&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${result[0].lat}&lon=${result[0].lon}&appid=${apikey}`
     );
     const result2 = await weatherResponse.json();
     const dateInSeconds = new Date(result2.dt * 1000);
@@ -176,13 +176,13 @@ const call_api = async () => {
     setFeelsLike(result2.main.feels_like);
 
     const forecastResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${result[0].lat}&lon=${result[0].lon}&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${result[0].lat}&lon=${result[0].lon}&appid=${apikey}`
     );
     res = await forecastResponse.json();
     next5DaysWt(res);
 
     const airQualityResponse = await fetch(
-      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${result[0].lat}&lon=${result[0].lon}&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${result[0].lat}&lon=${result[0].lon}&appid=${apikey}`
     );
     const res_new = await airQualityResponse.json();
     setAirQuality(res_new);
@@ -193,10 +193,12 @@ const call_api = async () => {
 
 const cleanLocationName = (name) => {
   const unwantedWords = ['Tehsil', 'District', 'Taluka', 'Block']; // Add any other keywords here
-  return unwantedWords.reduce((cleanedName, word) => {
-    const regex = new RegExp(`\\s*${word}\\b`, 'i');
-    return cleanedName.replace(regex, '');
-  }, name).trim();
+  return unwantedWords
+    .reduce((cleanedName, word) => {
+      const regex = new RegExp(`\\s*${word}\\b`, 'i');
+      return cleanedName.replace(regex, '');
+    }, name)
+    .trim();
 };
 
 const getCurrentLocation = () => {
@@ -208,7 +210,7 @@ const getCurrentLocation = () => {
       try {
         // Use OpenWeatherMap's reverse geocoding API
         const locationResponse = await fetch(
-          `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=211689bf23c8f090f4ef620cd8b2e48f`
+          `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apikey}`
         );
         const locationData = await locationResponse.json();
 
@@ -217,7 +219,9 @@ const getCurrentLocation = () => {
           location_value = cleanLocationName(locationData[0].name);
           call_api(); // Call the API with the cleaned-up location name
         } else {
-          console.log('No location data found. Falling back to default location.');
+          console.log(
+            'No location data found. Falling back to default location.'
+          );
           location_value = 'Delhi'; // Fall back to Delhi
           call_api();
         }
@@ -248,14 +252,13 @@ searchBtn.addEventListener('click', () => {
   call_api();
 });
 
-inputElement.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
+inputElement.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
     // Enter key was pressed
     // Call your function or perform your action here
     call_api();
   }
 });
-
 
 // Hamburger menu event listener
 hamburger.addEventListener('click', toggleHamburgerMenu);
