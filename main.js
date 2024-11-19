@@ -138,7 +138,7 @@ const setAirQuality = (res_new) => {
 const call_api = async () => {
   try {
     const locationResponse = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${location_value}&limit=1&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${location_value}&limit=1&appid=211689bf23c8f090f4ef620cd8b2e48f`
     );
     const result = await locationResponse.json();
     const weatherResponse = await fetch(
@@ -182,7 +182,7 @@ const call_api = async () => {
     next5DaysWt(res);
 
     const airQualityResponse = await fetch(
-      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${result[0].lat}&lon=${result[0].lon}&appid=211689bf23c8f090f4ef620cd8b2e48f`
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${result[0].lat}&lon=${result[0].lon}&appid=211689bf23c8f090f4ef620cd8b2e48f`
     );
     const res_new = await airQualityResponse.json();
     setAirQuality(res_new);
