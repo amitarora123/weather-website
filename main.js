@@ -1,4 +1,4 @@
-const apikey = d8808a004d997347da26cc6731c9df2c; // Vite-specific environment variable
+const apikey = 'd8808a004d997347da26cc6731c9df2c'; // Vite-specific environment variable
 const hamburger = document.getElementById('hamburger');
 const open_hamburger = document.getElementById('open');
 const close_hamburger = document.getElementById('close');
